@@ -84,9 +84,9 @@ function myfunc() {
     // Checking Tie
     else if ((b1 == 'X' || b1 == 'O') && (b2 == 'X'
         || b2 == 'O') && (b3 == 'X' || b3 == 'O') &&
-        (b4 == 'X' || b4 == '0') && (b5 == 'X' ||
+        (b4 == 'X' || b4 == 'O') && (b5 == 'X' ||
         b5 == 'O') && (b6 == 'X' || b6 == 'O') &&
-        (b7 == 'X' || b7 == '0') && (b8 == 'X' ||
+        (b7 == 'X' || b7 == 'O') && (b8 == 'X' ||
         b8 == 'O') && (b9 == 'X' || b9 == 'O')) {
             document.getElementById('status').innerHTML = "Match Tie";
             window.alert('Match Tie');
@@ -109,28 +109,36 @@ gamestatus = [];
 
 
 function makeMove(){
-if(gamestatus[gamestatus.length-1]==="X"){
-  event.target.classList.add("O");
-  event.target.textContent = "O";
-  gamestatus.push("O");
-}
-else if(gamestatus[gamestatus.length-1]==="O"){
-  event.target.classList.add("X");
-  event.target.textContent = "X";
-  gamestatus.push("X");
-}
-else if(gamestatus[gamestatus.length-1]==="XWON"){
-  alert("X WON!");
-}
-else if(gamestatus[gamestatus.length-1]==="OWON"){
-  alert("O WON!");
-}
-else{
-  event.target.classList.add("X");
-  event.target.textContent = "X";
-  gamestatus.push("X");
+if (document.getElementById('status').textContent == "Congratulations! O is the Winner!" || document.getElementById('status').textContent == "Congratulations! X is the Winner!"){
+    window.alert("Game Over!");
+  }
+  else if(document.getElementById('status').textContent == "Match Tie"){
+    window.alert("Match Tie!");
+  }
+  else{
+    if(event.target.textContent=='X'||event.target.textContent=='O'){
+      document.getElementById('status').innerHTML = "Try a different move";
+    }else{
+      if(gamestatus[gamestatus.length-1]==="X"){
+        event.target.classList.add("O");
+        event.target.textContent = "O";
+        gamestatus.push("O");
+      }
+      else if(gamestatus[gamestatus.length-1]==="O"){
+        event.target.classList.add("X");
+        event.target.textContent = "X";
+        gamestatus.push("X");
+      }
+      else{
+        event.target.classList.add("X");
+        event.target.textContent = "X";
+        gamestatus.push("X");
 
-}
+      }
+    }
+  }
+
+
 }
 
 function addHover(){
@@ -146,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // handle the click event
                 const squares = document.getElementById("board").querySelectorAll("div");
 
-
                 for (square of squares){
                   square.classList.add('square');
                   square.addEventListener("click",myfunc);
@@ -157,34 +164,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 for(var i=0;i<squares.length;i++){
                   squares[i].setAttribute("id","square"+i);
-                  noCheating(squares[i]);
                 }
+
 
                 btn.addEventListener('click',newGame);
             });
         });
 
 function newGame() {
-    document.getElementById("square0").textContent = '';
-    document.getElementById("square1").textContent = '';
-    document.getElementById("square2").textContent = '';
-    document.getElementById("square3").textContent = '';
-    document.getElementById("square4").textContent = '';
-    document.getElementById("square5").textContent = '';
-    document.getElementById("square6").textContent = '';
-    document.getElementById("square7").textContent = '';
-    document.getElementById("square8").textContent = '';
+    const squares = document.querySelectorAll(".square");
+    squares.forEach(square => {
+      square.textContent='';
+      square.classList.remove("X","O");
+    });
+
+
     document.getElementById("status").textContent = 'Move your mouse over a square and click to play an X or an O.';
+    document.getElementById("status").classList.remove("you-won");
+    gamestatus = [];
 
-}
-
-function noCheating(node) {
-    if (node.nodeType == 1) {
-        node.setAttribute("unselectable", "on");
-    }
-    var child = node.firstChild;
-    while (child) {
-        noCheating(child);
-        child = child.nextSibling;
-    }
 }
