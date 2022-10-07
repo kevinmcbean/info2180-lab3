@@ -157,6 +157,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 for(var i=0;i<squares.length;i++){
                   squares[i].setAttribute("id","square"+i);
+                  noCheating(squares[i]);
                 }
+
+                btn.addEventListener('click',newGame);
             });
         });
+
+function newGame() {
+    document.getElementById("square0").textContent = '';
+    document.getElementById("square1").textContent = '';
+    document.getElementById("square2").textContent = '';
+    document.getElementById("square3").textContent = '';
+    document.getElementById("square4").textContent = '';
+    document.getElementById("square5").textContent = '';
+    document.getElementById("square6").textContent = '';
+    document.getElementById("square7").textContent = '';
+    document.getElementById("square8").textContent = '';
+    document.getElementById("status").textContent = 'Move your mouse over a square and click to play an X or an O.';
+
+}
+
+function noCheating(node) {
+    if (node.nodeType == 1) {
+        node.setAttribute("unselectable", "on");
+    }
+    var child = node.firstChild;
+    while (child) {
+        noCheating(child);
+        child = child.nextSibling;
+    }
+}
