@@ -26,6 +26,13 @@ else{
 }
 }
 
+function addHover(){
+  event.target.classList.add("hover");
+}
+function removeHover(){
+  event.target.classList.remove("hover");
+}
+
 document.addEventListener('DOMContentLoaded', () => {
             let btn = document.body.getElementsByClassName('btn')[0];
             btn.addEventListener('click', () => {
@@ -34,7 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 for (square of squares){
                   square.classList.add('square');
-                  square.addEventListener("click",makeMove)
+                  square.addEventListener("click",makeMove);
+                  square.addEventListener("mouseover",addHover);
+                  square.addEventListener("mouseout",removeHover);
                 }
             });
         });
